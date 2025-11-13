@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Dúvida/Suporte Geral
+    url: https://github.com/eps-fcte-2025-2/alm-backend/discussions/new?category=q-a
+    about: Faça uma pergunta sobre uso ou procure suporte em nosso fórum da comunidade (Discussions).
+  - name: 🛡️ Relatar uma Vulnerabilidade de Segurança
+    url: https://github.com/eps-fcte-2025-2/alm-backend/security/policy
+    about: Para divulgação responsável, por favor, reporte problemas de segurança de forma privada.

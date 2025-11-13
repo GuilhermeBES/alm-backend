@@ -1,0 +1,31 @@
+name: 📚 Melhoria na Documentação
+description: Reporte um erro, omissão ou parte confusa na documentação do projeto.
+title: "[DOCS]: "
+labels: ["documentação", "boa primeira contribuição"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar a melhorar nossa documentação! Docs claras são essenciais.
+  - type: input
+    id: url
+    attributes:
+      label: URL ou Arquivo da Documentação
+      description: Por favor, forneça o link exato (URL) ou nome do arquivo onde o problema existe.
+      placeholder: Ex: /docs/instalacao.md ou README.md
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Descreva o problema na documentação
+      description: Explique o que está errado, faltando, confuso ou precisa de atualização.
+      placeholder: O bloco de código de exemplo está quebrado, ou a seção X está desatualizada.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Sugestão de Correção ou Conteúdo
+      description: (Opcional) Se você souber como corrigir, forneça o texto ou código corrigido.
+      placeholder: Mudar "Clique em Salvar" para "Clique em Aplicar".

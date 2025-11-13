@@ -1,0 +1,58 @@
+name: 🐛 Relatório de Bug
+description: Reporte um bug ou problema para nos ajudar a melhorar o projeto.
+title: "[BUG]: "
+labels: ["bug", "precisa de triagem"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por dedicar seu tempo para relatar um bug!
+  - type: input
+    id: version
+    attributes:
+      label: Qual versão você está usando?
+      description: Qual é a versão do software/projeto onde você encontrou o bug?
+      placeholder: Ex: v1.2.0 ou Versão mais recente
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Descreva o Bug
+      description: Uma descrição clara e concisa do que é o bug e qual o comportamento inesperado.
+      placeholder: Nos conte o que você viu!
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para Reproduzir
+      description: Forneça passos claros para reproduzir o comportamento.
+      placeholder: |
+        1. Vá para '...'
+        2. Clique em '....'
+        3. Veja o erro
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Qual navegador/ambiente você usou?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Node.js
+        - Outro (por favor, especifique)
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Antes de enviar, você verificou o seguinte?
+      options:
+        - label: Pesquisei nos problemas existentes para garantir que não é uma duplicata.
+          required: true
+        - label: Li a documentação/README do projeto.
+          required: true

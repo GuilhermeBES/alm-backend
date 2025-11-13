@@ -1,0 +1,25 @@
+name: 🧑‍💻 Tarefa de Manutenção / Refatoração
+description: Para tarefas internas, dívida técnica ou manutenção do projeto (ex: atualização de dependências).
+title: "[CHORE]: "
+labels: ["manutenção", "refatoração"]
+assignees: # Adicione aqui os mantenedores padrão
+  - seu_nome_de_usuario_github
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este template para rastrear trabalho que não é visível para o usuário final.
+  - type: textarea
+    id: task_description
+    attributes:
+      label: Descrição da Tarefa
+      description: Descreva brevemente o trabalho que precisa ser feito.
+      placeholder: Atualizar todas as dependências no package.json para as versões menores mais recentes.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo e Impacto
+      description: Note quais arquivos/áreas serão afetados e o impacto esperado.
+      placeholder: Afeta package.json, package-lock.json. Nenhum impacto esperado no usuário final.

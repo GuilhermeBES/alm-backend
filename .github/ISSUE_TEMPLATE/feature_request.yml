@@ -1,0 +1,31 @@
+name: ✨ Solicitação de Recurso (Feature)
+description: Sugira uma nova ideia ou melhoria para o projeto.
+title: "[FEATURE]: "
+labels: ["melhoria", "nova feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adoramos novas ideias! Por favor, use este formulário para sugerir um novo recurso.
+  - type: textarea
+    id: problem
+    attributes:
+      label: O problema ou necessidade
+      description: Descreva o problema que esta nova funcionalidade resolveria. Por que ela é necessária?
+      placeholder: Como as coisas funcionam agora e por que isso não é o ideal.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: A Solução Proposta
+      description: Descreva como você gostaria que o recurso funcionasse.
+      placeholder: Uma breve descrição de como a nova funcionalidade deve se comportar.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas Consideradas
+      description: Você considerou alguma alternativa? Se sim, por que a sua solução proposta é melhor?
+      placeholder: Se houver, descreva as alternativas.

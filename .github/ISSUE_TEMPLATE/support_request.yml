@@ -1,0 +1,24 @@
+name: ❓ Dúvida/Pedido de Suporte
+description: Faça uma pergunta geral sobre uso ou configuração.
+title: "[DÚVIDA]: "
+labels: ["suporte"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 🛑 Por Favor, Atenção:
+        
+        **Este rastreador de problemas (Issues) é apenas para relatar bugs reprodutíveis e propor novos recursos.**
+        
+        Para dúvidas gerais, suporte ou solução de problemas, utilize nosso canal de comunidade dedicado:
+        
+        **[Visite o Link do Discussions/Fórum Aqui](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/discussions/new?category=q-a)**
+        
+        Se você tem certeza de que seu problema é um bug, por favor, volte e use o template de **"Relatório de Bug"**.
+  - type: textarea
+    id: question
+    attributes:
+      label: Sua Dúvida / Problema
+      description: Por favor, descreva brevemente sua dúvida.
+    validations:
+      required: true
