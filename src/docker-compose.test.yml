@@ -1,0 +1,13 @@
+services:
+  web:
+    extends:
+      file: docker-compose.yml
+      service: web
+    volumes: []
+    ports: []
+
+  db:
+    extends: 
+      file: docker-compose.yml
+      service: db
+    volumes: []
