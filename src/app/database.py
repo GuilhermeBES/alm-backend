@@ -3,11 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
 
+
 def require_env(name: str) -> str:
     value = os.getenv(name)
     if value is None:
         raise RuntimeError(f"Environment variable '{name}' not set")
     return value
+
 
 POSTGRES_USER = require_env("POSTGRES_USER")
 POSTGRES_PASSWORD = require_env("POSTGRES_PASSWORD")
