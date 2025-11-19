@@ -150,11 +150,16 @@ class InferenceService:
                 prices.append(row["last_price"])
 
         return np.array(embeddings, dtype=np.float32), np.array(
-            prices, dtype=np.float32,
+            prices,
+            dtype=np.float32,
         )
 
     def _run_inference(
-        self, model, config, embeddings: np.ndarray, prices: np.ndarray,
+        self,
+        model,
+        config,
+        embeddings: np.ndarray,
+        prices: np.ndarray,
     ) -> PredictionResult:
         """Run inference on the provided data."""
         prediction_horizon = config.get("prediction_horizon", 1)

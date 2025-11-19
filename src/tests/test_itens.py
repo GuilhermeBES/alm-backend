@@ -6,7 +6,8 @@ def test_read_root(client) -> None:
 
 def test_create_item(client) -> None:
     response = client.post(
-        "/items/", json={"title": "Test Item", "description": "Test Description"},
+        "/items/",
+        json={"title": "Test Item", "description": "Test Description"},
     )
     assert response.status_code == 201
     data = response.json()

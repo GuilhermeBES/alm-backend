@@ -26,7 +26,9 @@ async def list_models():
 
 
 @router.post(
-    "/inference/{model_name}", response_model=InferenceUploadResponse, status_code=202,
+    "/inference/{model_name}",
+    response_model=InferenceUploadResponse,
+    status_code=202,
 )
 async def submit_inference(model_name: str, file: Annotated[UploadFile, File()]):
     """Submit CSV file for inference processing.
@@ -110,5 +112,6 @@ async def get_inference_result(job_id: str):
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Error retrieving result: {e!s}",
+            status_code=500,
+            detail=f"Error retrieving result: {e!s}",
         )
