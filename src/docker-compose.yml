@@ -16,7 +16,7 @@ services:
 
   db:
     container_name: ${POSTGRES_HOST}
-    image: postgres:15-alpine
+    image: postgres:18-alpine
     env_file:
       .env.dev
     volumes:
