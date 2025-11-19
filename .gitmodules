@@ -1,0 +1,3 @@
+[submodule "src/submodules/PyxLSTM"]
+	path = src/submodules/PyxLSTM
+	url = https://github.com/thmasq/PyxLSTM.git
