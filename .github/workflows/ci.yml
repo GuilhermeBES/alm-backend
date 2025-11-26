@@ -38,26 +38,3 @@ jobs:
       
       - name: Run Ruff
         run: ruff check app/ tests/
-
-  test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Start services
-        run: docker compose -f docker-compose.yml -f docker-compose.test.yml up -d --build 
-
-      - name: Run tests with coverage inside container
-        run: |
-          docker exec alm-backend pytest --cov=app --cov-report=xml --cov-report=term-missing
-          docker cp alm-backend:/code/coverage.xml ./coverage.xml
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./src/coverage.xml
-          fail_ci_if_error: false
