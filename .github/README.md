@@ -4,7 +4,7 @@
 
 O Backend da Plataforma ALM é o serviço central do projeto.
 
-## 🚀 Como Rodar o Serviço Rapidamente (Docker)
+## Como Rodar o Serviço Rapidamente (Docker)
 
 Este projeto é totalmente containerizado para garantir uma inicialização rápida e um ambiente consistente.
 
