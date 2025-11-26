@@ -1,17 +1,34 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from .database import engine, Base
-from .routers import items
 
-Base.metadata.create_all(bind=engine)
+from .routers import inference
+from .services.inference_service import inference_service
 
-app = FastAPI(title="ALM - XLSTM - Service")
 
-app.include_router(items.router, prefix="/items", tags=["items"])
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for startup and shutdown events."""
+    # Startup
+    await inference_service.start_worker()
+    yield
+    # Shutdown
+    await inference_service.stop_worker()
+
+
+app = FastAPI(
+    title="ALM - xLSTM - Service",
+    description="Asset Liability Management with xLSTM inference",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+app.include_router(inference.router, prefix="/api/v1", tags=["inference"])
 
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to FastAPI with PostgreSQL"}
+    return {"message": "Welcome to ALM xLSTM Inference Service"}
 
 
 @app.get("/health")

@@ -1,11 +1,11 @@
 import pytest
+from app.database import Base, get_db
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app.main import app
-from app.database import Base, get_db
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 
@@ -17,7 +17,7 @@ engine = create_engine(
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-@pytest.fixture()
+@pytest.fixture
 def db_session():
     Base.metadata.create_all(bind=engine)
     session = TestingSessionLocal()
@@ -26,7 +26,7 @@ def db_session():
     Base.metadata.drop_all(bind=engine)
 
 
-@pytest.fixture()
+@pytest.fixture
 def client(db_session):
     def override_get_db():
         try:

@@ -10,22 +10,23 @@ services:
       - .env.dev
     environment:
       - PYTHONPATH=/code
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
 
-  db:
-    container_name: ${POSTGRES_HOST}
-    image: postgres:15-alpine
-    env_file:
-      .env.dev
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # Not being used at the moment
+  # db:
+  #   container_name: ${POSTGRES_HOST}
+  #   image: postgres:18-alpine
+  #   env_file:
+  #     .env.dev
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
 
 volumes:
   postgres_data:
