@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
     git \
+    sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
@@ -13,11 +14,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy PyxLSTM submodule
-COPY submodules/PyxLSTM /code/PyxLSTM
+# COPY submodules/PyxLSTM /code/PyxLSTM
 
-RUN pip install -r /code/PyxLSTM/requirements.txt
+# RUN pip install -r /code/PyxLSTM/requirements.txt
 
-RUN pip install /code/PyxLSTM
+# RUN pip install /code/PyxLSTM
 
 # Copy application code
 COPY . /code

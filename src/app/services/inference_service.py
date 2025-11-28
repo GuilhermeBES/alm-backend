@@ -107,7 +107,7 @@ class InferenceService:
         # Import xLSTM from submodule
         import sys
 
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent / "PyxLSTM"))
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent / "submodules" / "PyxLSTM"))
         from xLSTM.model import xLSTM
 
         # Load checkpoint
