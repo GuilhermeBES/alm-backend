@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import inference, portfolio, auth
+from .routers import inference, portfolio, auth, forecast
 from .services.inference_service import inference_service
 
 
@@ -42,6 +42,7 @@ app.add_middleware(
 app.include_router(inference.router, prefix="/api/v1", tags=["inference"])
 app.include_router(portfolio.router, prefix="/api/v1/portfolio", tags=["portfolio"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(forecast.router, prefix="/api/v1", tags=["forecast"])
 
 
 @app.get("/")

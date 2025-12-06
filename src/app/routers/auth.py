@@ -80,12 +80,19 @@ async def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="a
             )
 
         # Retorna objeto User
+        from datetime import datetime
+        created_at = user_from_db.get("created_at")
+        if isinstance(created_at, (int, float)):
+            created_at = datetime.fromtimestamp(created_at).isoformat()
+        elif created_at is None:
+            created_at = datetime.utcnow().isoformat()
+
         return User(
             id=str(user_from_db["id"]),
             name=user_from_db["name"],
             email=user_from_db["email"],
             role=user_from_db["role"],
-            createdAt=user_from_db.get("created_at")
+            createdAt=created_at
         )
 
     except HTTPException:

@@ -18,3 +18,5 @@ requests==2.32.3
 torch==2.5.1+cpu
 PyJWT==2.10.1
 python-dotenv==1.0.1
+statsmodels==0.14.4
+scikit-learn==1.5.2

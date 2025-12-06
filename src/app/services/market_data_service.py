@@ -20,6 +20,9 @@ class MarketDataService:
     BRAPI_BASE_URL = "https://brapi.dev/api"
     COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3"
 
+    # API Key da Brapi (lida do ambiente)
+    BRAPI_API_KEY = os.getenv("BRAPI_API_KEY", "")
+
     # Mapeamento de tickers brasileiros + Bitcoin
     # Usando apenas ações gratuitas da Brapi (sem necessidade de token)
     TICKERS = {
@@ -115,10 +118,15 @@ class MarketDataService:
                     url = f"{MarketDataService.BRAPI_BASE_URL}/quote/{brapi_ticker}"
                     params = {"range": "1y", "interval": "1d"}
 
+                    # Adiciona header de autenticação se API key estiver disponível
+                    headers = {}
+                    if MarketDataService.BRAPI_API_KEY:
+                        headers["Authorization"] = f"Bearer {MarketDataService.BRAPI_API_KEY}"
+
                     # Registra chamada no rate limiter
                     brapi_rate_limiter.record_call()
 
-                    response = requests.get(url, params=params, timeout=10)
+                    response = requests.get(url, params=params, headers=headers, timeout=10)
                     response.raise_for_status()
                     data = response.json()
 
@@ -216,7 +224,12 @@ class MarketDataService:
                 brapi_ticker = ticker.replace(".SA", "")
                 url = f"{MarketDataService.BRAPI_BASE_URL}/quote/{brapi_ticker}"
 
-                response = requests.get(url, timeout=5)
+                # Adiciona header de autenticação se API key estiver disponível
+                headers = {}
+                if MarketDataService.BRAPI_API_KEY:
+                    headers["Authorization"] = f"Bearer {MarketDataService.BRAPI_API_KEY}"
+
+                response = requests.get(url, headers=headers, timeout=5)
                 response.raise_for_status()
                 data = response.json()
 
