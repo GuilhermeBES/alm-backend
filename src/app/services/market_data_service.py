@@ -9,6 +9,8 @@ import os
 import requests
 
 from app.services.database_service import database_service
+from app.services.cache_service import cache_service
+from app.services.rate_limiter import brapi_rate_limiter
 
 
 class MarketDataService:
@@ -42,6 +44,7 @@ class MarketDataService:
     ) -> Optional[pd.DataFrame]:
         """
         Busca dados históricos de uma ação usando Brapi (ações BR) ou CoinGecko (cripto).
+        Utiliza cache e rate limiting para otimizar requisições.
 
         Args:
             ticker: Código da ação (ex: "PETR4.SA" ou "BTC-USD")
@@ -53,8 +56,25 @@ class MarketDataService:
         """
         import time
 
+        # Verifica cache primeiro
+        cache_key = f"stock_data:{ticker}:{period}"
+        cached_data = cache_service.get(cache_key)
+        if cached_data is not None:
+            print(f"✓ Cache hit para {ticker}")
+            return cached_data
+
         # Detecta se é Bitcoin ou ação brasileira
         is_crypto = ticker == "BTC-USD"
+
+        # Aguarda rate limit se necessário (apenas para Brapi)
+        if not is_crypto:
+            while not brapi_rate_limiter.is_allowed():
+                wait_time = brapi_rate_limiter.time_until_next_call()
+                if wait_time and wait_time > 0:
+                    print(f"⏳ Rate limit: aguardando {wait_time:.1f}s para {ticker}")
+                    time.sleep(wait_time + 0.1)
+                else:
+                    break
 
         for attempt in range(retries):
             try:
@@ -82,6 +102,9 @@ class MarketDataService:
                         df["High"] = df["Close"]
                         df["Low"] = df["Close"]
                         df["Volume"] = 0
+
+                        # Armazena em cache (1 hora)
+                        cache_service.set(cache_key, df, ttl=3600)
                         return df
 
                 else:
@@ -91,6 +114,9 @@ class MarketDataService:
                     # Usa Brapi para ações brasileiras
                     url = f"{MarketDataService.BRAPI_BASE_URL}/quote/{brapi_ticker}"
                     params = {"range": "1y", "interval": "1d"}
+
+                    # Registra chamada no rate limiter
+                    brapi_rate_limiter.record_call()
 
                     response = requests.get(url, params=params, timeout=10)
                     response.raise_for_status()
@@ -111,7 +137,13 @@ class MarketDataService:
                                 "close": "Close",
                                 "volume": "Volume"
                             }, inplace=True)
-                            return df[["Open", "High", "Low", "Close", "Volume"]]
+
+                            result_df = df[["Open", "High", "Low", "Close", "Volume"]]
+
+                            # Armazena em cache (1 hora)
+                            cache_service.set(cache_key, result_df, ttl=3600)
+
+                            return result_df
 
                 print(f"Tentativa {attempt + 1}/{retries}: Dados vazios para {ticker}")
 

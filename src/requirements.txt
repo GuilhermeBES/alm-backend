@@ -16,3 +16,5 @@ python-multipart==0.0.20
 yfinance==0.2.48
 requests==2.32.3
 torch==2.5.1+cpu
+PyJWT==2.10.1
+python-dotenv==1.0.1
