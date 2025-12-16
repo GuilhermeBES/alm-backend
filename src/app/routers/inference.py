@@ -1,16 +1,39 @@
 from typing import Annotated
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi.responses import HTMLResponse
 
 from app.schemas.inference import (
     InferenceResultResponse,
     InferenceUploadResponse,
     JobStatus,
     ModelsListResponse,
+    Wallet,
+    CashValue,
+    RiskNotebookResponse,
 )
 from app.services.inference_service import inference_service
+from app.services.market_data_service import market_data_service
 
 router = APIRouter()
+
+
+@router.get("/portfolio-allocation", response_model=Wallet)
+async def get_portfolio_allocation():
+    """Get the portfolio allocation for the sunburst chart.
+
+    Busca dados REAIS das ações brasileiras e Bitcoin via Yahoo Finance.
+
+    Returns:
+        Wallet: Portfolio allocation data com valores reais
+    """
+    # Busca dados reais do mercado (com database habilitado)
+    portfolio_data = market_data_service.get_portfolio_data(use_database=True)
+
+    return {
+        "portfolio": portfolio_data,
+        "plotBase64": "",
+    }
 
 
 @router.get("/models", response_model=ModelsListResponse)
@@ -115,3 +138,60 @@ async def get_inference_result(job_id: str):
             status_code=500,
             detail=f"Error retrieving result: {e!s}",
         )
+
+@router.get("/cash-value", response_model=CashValue)
+async def get_cash_value():
+    """Get the cash value data.
+
+    Returns:
+        CashValue: Mock cash value data
+    """
+    return {
+        "invested": 1000000.00,
+        "inCash": 250000.00,
+    }
+
+@router.get("/riskNotebook", response_model=RiskNotebookResponse)
+async def get_risk_notebook(notebookName: str):
+    """Get content of a risk notebook.
+
+    Args:
+        notebookName: Name of the risk notebook
+
+    Returns:
+        RiskNotebookResponse: HTML content of the notebook
+    """
+    mock_html = f"<h2>Relatório de Risco: {notebookName}</h2><p>Este é um conteúdo HTML mock para o relatório {notebookName}.</p><p>Mais detalhes sobre o risco...</p>"
+    return { "notebook_html": mock_html }
+
+@router.get("/passivos", response_class=HTMLResponse)
+async def get_passivos_page():
+    """Get the liabilities (passivos) page content.
+
+    Returns:
+        HTMLResponse: HTML content for the passivos page
+    """
+    mock_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Passivos</title>
+        <style>
+            body { font-family: sans-serif; background-color: #444B58; color: #FFFFFF; padding: 20px; }
+            h1 { color: #FFFFFF; }
+            p { color: #B0B0B0; }
+        </style>
+    </head>
+    <body>
+        <h1>Página de Passivos</h1>
+        <p>Este é um conteúdo HTML mock para a página de Passivos.</p>
+        <p>Informações detalhadas sobre passivos e obrigações da empresa.</p>
+        <ul>
+            <li>Passivo Circulante: R$ 500.000</li>
+            <li>Passivo Não Circulante: R$ 1.200.000</li>
+            <li>Total: R$ 1.700.000</li>
+        </ul>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=mock_html, status_code=200)

@@ -11,6 +11,37 @@ class JobStatus(str, Enum):
     FAILED = "failed"
 
 
+class Asset(BaseModel):
+    """Asset allocation in the portfolio."""
+
+    ticker: str
+    name: str
+    allocation: float
+    currentPrice: float = 0.0  # Preço atual da ação
+    historicalAnnualReturn: float = 0.0
+    historicalAnnualVolatility: float = 0.0
+    forecastAnnualReturn: float = 0.0
+    forecastAnnualVolatility: float = 0.0
+
+
+class Wallet(BaseModel):
+    """Portfolio allocation response."""
+
+    portfolio: list[Asset]
+    plotBase64: str | None = None
+
+class CashValue(BaseModel):
+    """Cash value data."""
+    invested: float
+    inCash: float
+
+class RiskNotebookResponse(BaseModel):
+    """Response for a risk notebook HTML content."""
+    notebook_html: str
+
+
+
+
 class ModelInfo(BaseModel):
     """Information about an available model."""
 
