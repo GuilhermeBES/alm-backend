@@ -2,7 +2,7 @@
 Endpoints para previsões de séries temporais.
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import List, Optional, Tuple
 import warnings
 
@@ -25,8 +25,12 @@ class ForecastRequest(BaseModel):
     """Schema para requisição de previsão."""
     ticker: str = Field(..., description="Ticker da ação (ex: PETR4.SA)")
     n_steps: int = Field(7, ge=1, le=30, description="Número de dias a prever")
-    order: Optional[Tuple[int, int, int]] = Field(None, description="Ordem SARIMA (p, d, q)")
-    seasonal_order: Optional[Tuple[int, int, int, int]] = Field(None, description="Ordem sazonal (P, D, Q, s)")
+    order: Optional[Tuple[int, int, int]] = Field(
+        None, description="Ordem SARIMA (p, d, q)"
+    )
+    seasonal_order: Optional[Tuple[int, int, int, int]] = Field(
+        None, description="Ordem sazonal (P, D, Q, s)"
+    )
     days: int = Field(365, ge=30, le=730, description="Dias de histórico para treinar")
 
 
